@@ -7,7 +7,12 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postRouter = require('./routes/posts');
+
 var session = require('express-session');
+
+// restful api route
+var apiUsersRouter = require('./api/routes/users');
+var apiAdminRouter = require('./api/routes/admin');
 var app = express();
 
 // view engine setup
@@ -36,6 +41,8 @@ app.use(function(req,res,next){
   next();
 });
 app.use('/', indexRouter);
+app.use('/api',apiAdminRouter);
+app.use('/api/users',apiUsersRouter);
 app.use(function(req,res,next){
   if(req.session.user){
     next();
@@ -45,6 +52,7 @@ app.use(function(req,res,next){
 })
 app.use('/users', usersRouter);
 app.use('/posts',postRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
